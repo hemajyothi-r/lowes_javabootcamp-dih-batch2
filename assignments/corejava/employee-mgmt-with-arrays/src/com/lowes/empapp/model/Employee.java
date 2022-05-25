@@ -18,14 +18,13 @@ public class Employee {
 		//this(103, "Ajeya", 20, "DevOps Engineer","Admin", "UK");
 		//this(104, "Sammu", 27, "System Engineer","CO",  "Australia");
 	}
-			
+	
 	@Override
 	public String toString() {
-		return "Employee [id=" + empId + ", name=" + name + ", age=" + age + ", designation=" + designation
-				+ ", department=" + department + ", country=" + country + "]";
+		return "\n" + empId + "\t" + name + "\t" + age + "\t" + designation + "\t" + department + "\t" + country  ;
 			
 	}
-		
+	
 	public Employee(int empId, String name, int age, String designation, String department, String country) {
 		super();
 		this.empId = empId;
