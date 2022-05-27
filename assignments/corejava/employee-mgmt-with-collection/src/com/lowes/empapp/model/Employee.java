@@ -21,7 +21,7 @@ public class Employee {
 	
 	@Override
 	public String toString() {
-		return "\n" + empId + "\t" + name + "\t" + age + "\t" + designation + "\t" + department + "\t" + country  ;
+		return  empId + "\t" + name + "\t" + age + "\t" + designation + "\t" + department + "\t" + country  ;
 			
 	}
 	
@@ -78,5 +78,7 @@ public class Employee {
 		 for (int i =0; i<strEmployeeHeader.length;i++){
 			   System.out.print(strEmployeeHeader[i] + "\t");
 			  }
+		 System.out.println("\n");
+		 
 	}
 }

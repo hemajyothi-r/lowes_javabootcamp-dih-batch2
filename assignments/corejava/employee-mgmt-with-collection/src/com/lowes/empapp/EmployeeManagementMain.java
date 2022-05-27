@@ -72,7 +72,7 @@ public class EmployeeManagementMain {
 							System.out.println("\nThis employee does not exist!");
 						}
 					} catch (EmployeeException e) {
-						System.out.println(e.getMessage());
+						//System.out.println(e.getMessage());
 					}
 					break;
 
@@ -83,7 +83,7 @@ public class EmployeeManagementMain {
 					try {
 						empUpdate = empService.findByEmpId(empId);
 					} catch (EmployeeException e) {
-						System.out.println(e.getMessage());
+						//System.out.println(e.getMessage());
 						break;
 					}
 
