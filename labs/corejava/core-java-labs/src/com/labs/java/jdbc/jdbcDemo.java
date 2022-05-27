@@ -12,20 +12,20 @@ public class jdbcDemo {
 
 		System.out.println("JDBC demo......");
 
-		// Step1: Load Driver
+		
 
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-
-		try {
-			// Class.forName("com.mysql.jdbc.Driver"); //deprecated
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("Driver Loaded");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Error: Driver not loaded " + e.getMessage());
-			e.printStackTrace();
-		}
+//// Step1: Load Driver ---its optional when the jar file has been inlucded in the CLASSPATH
+//		try {
+//			// Class.forName("com.mysql.jdbc.Driver"); //deprecated
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			System.out.println("Driver Loaded");
+//		} catch (ClassNotFoundException e) {
+//			System.out.println("Error: Driver not loaded " + e.getMessage());
+//			e.printStackTrace();
+//		}
 
 		// Step2 : open connection to db
 

@@ -8,11 +8,11 @@ public class Employee {
 	private String designation;
 	private String department;
 	private String country;
-	
+	private Double salary;
 	// default constructor
 	public Employee() {
 		 
-		this(101, "Hema", 24, "Developer", "IT", "India");
+		this(101, "Hema", 24, "Developer", "IT", "India", 20000.0);
 		//this(102, "Jyothi", 26, "Tester","CO", "USA");
 		//this(103, "Ajeya", 20, "DevOps Engineer","Admin", "UK");
 		//this(104, "Sammu", 27, "System Engineer","CO",  "Australia");
@@ -20,11 +20,11 @@ public class Employee {
 	
 	@Override
 	public String toString() {
-		return "\n" + empId + "\t" + name + "\t" + age + "\t" + designation + "\t" + department + "\t" + country  ;
+		return "\n" + empId + "\t" + name + "\t" + age + "\t" + designation + "\t" + department + "\t" + country + "\t" + salary ;
 			
 	}
 	
-	public Employee(int empId, String name, int age, String designation, String department, String country) {
+	public Employee(int empId, String name, int age, String designation, String department, String country, Double salary) {
 		super();
 		this.empId = empId;
 		this.name = name;
@@ -32,6 +32,7 @@ public class Employee {
 		this.designation = designation;
 		this.department = department;
 		this.country = country;
+		this.salary=salary;
 	}
 		
 	public int getEmpId() {
@@ -70,7 +71,15 @@ public class Employee {
 	public void setCountry(String country) {
 		this.country = country;
 	}	
-	public static String[ ] strEmployeeHeader = {"EmpID", "Name","Age", "Designation", "Department", "Country"}; // One dimensional array.	
+	
+	public Double getSalary() {
+		return salary;
+	}
+	public void setSalary(Double salary) {
+		this.salary = salary;
+	}
+	
+	public static String[ ] strEmployeeHeader = {"EmpID", "Name","Age", "Designation", "Department", "Country", "Salary"}; // One dimensional array.	
 	
 	public static void printEmpHeader() {
 
