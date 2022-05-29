@@ -6,12 +6,17 @@ import com.lowes.empapp.service.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.io.*;
 
 public class EmployeeManagementMain {
 
 	public static int count = 1;
 	static Scanner scan = new Scanner(System.in);
+	static EmployeeServiceColValImpl empService = new EmployeeServiceColValImpl();
 
 	public static void showEmployeeMainMenu() {
 
@@ -20,14 +25,17 @@ public class EmployeeManagementMain {
 		System.out.println("3. Update Employee");
 		System.out.println("4. Delete Employee");
 		System.out.println("5. View All Employees");
-		System.out.println("6. Exit");
+		System.out.println("6. Import");
+		System.out.println("7. Export");
+		System.out.println("8. Exit");
 
 	}
 
 	public static void main(String[] args) {
 
 		System.out.println("Welcome to Employee Management App");
-		EmployeeServiceColImpl empService = new EmployeeServiceColImpl();
+		// EmployeeServiceColImpl empService = new EmployeeServiceColImpl();
+		ExecutorService executor = Executors.newWorkStealingPool(2);
 
 		int empId;
 
@@ -40,7 +48,7 @@ public class EmployeeManagementMain {
 			int option = 0;
 			System.out.print("\nEnter your Option : ");
 			try {
-				option = scan.nextInt();
+				option = Integer.parseInt(scan.next());
 
 			} catch (NumberFormatException e) {
 
@@ -71,7 +79,7 @@ public class EmployeeManagementMain {
 							System.out.println("\nThis employee does not exist!");
 						}
 					} catch (EmployeeException e) {
-						//System.out.println(e.getMessage());
+						// System.out.println(e.getMessage());
 					}
 					break;
 
@@ -82,7 +90,7 @@ public class EmployeeManagementMain {
 					try {
 						empUpdate = empService.findByEmpId(empId);
 					} catch (EmployeeException e) {
-						//System.out.println(e.getMessage());
+						// System.out.println(e.getMessage());
 						break;
 					}
 
@@ -114,10 +122,37 @@ public class EmployeeManagementMain {
 						System.out.println("\nNo records found!!!");
 					}
 					break;
-				case 6: // Exit from the app
+
+				case 6: // Import the employees from the input file
+					Future<Boolean> importFuture = executor.submit(new Callable<Boolean>() {
+						@Override
+						public Boolean call() throws Exception {
+							System.out.println("Import Process on thread named: " + Thread.currentThread().getName());
+							Thread.sleep(2000);
+							empService.bulkImport();
+							return true;
+						}
+					});
+					break;
+				case 7: // Export All the collection employees to text file
+					Future<Boolean> exportFuture = executor.submit(new Callable<Boolean>() {
+						@Override
+						public Boolean call() throws Exception {
+							System.out
+									.println("Export Process on the thread named: " + Thread.currentThread().getName());
+							Thread.sleep(2000);
+							empService.bulkExport();
+							return true;
+						}
+					});
+					break;
+
+				case 8: // Exit from the app
 					System.out.println("\nThank you for using Employee Management application!!");
+					executor.shutdown();
 					System.exit(0);
 					break;
+
 				default:
 					System.out.println("\nInvalid option!\n");
 					showEmployeeMainMenu();
@@ -131,10 +166,25 @@ public class EmployeeManagementMain {
 	}
 
 	private static void getEmployeeData(Employee emp) throws NumberFormatException {
+
 		System.out.println("Enter Employee Name");
 		emp.setName(scan.next());
-		System.out.println("Enter Employee Age");
-		emp.setAge(scan.nextInt());
+		try {
+			boolean ageVal = false;
+			do {
+				System.out.println("Enter Employee Age");
+				String err = "Invalid age, age range is between 18 and 60";
+				emp.setAge(Integer.parseInt(scan.next()));
+				ageVal = empService.validate(emp, err, e -> e.getAge() >= 18 && e.getAge() <= 60, msg -> {
+					System.out.println(msg);
+					return false;
+				});
+
+			} while (!ageVal);
+			// emp.setAge(scan.nextInt());
+		} catch (NumberFormatException e) {
+			throw e;
+		}
 		System.out.println("Enter Employee Designation");
 		emp.setDesignation(scan.next());
 		System.out.println("Enter Employee Department");
