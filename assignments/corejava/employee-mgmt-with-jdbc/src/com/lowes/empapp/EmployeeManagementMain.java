@@ -81,7 +81,7 @@ public class EmployeeManagementMain {
 							System.out.println("\nThis employee does not exist!");
 						}
 					} catch (EmployeeException e) {
-						// System.out.println(e.getMessage());
+						System.out.println(e.getMessage());
 					}
 					break;
 
@@ -101,11 +101,9 @@ public class EmployeeManagementMain {
 				case 4:// Delete Employee by ID
 					System.out.println("Enter the employee Id to delete");
 					empId = scan.nextInt();
-					if (empService.deleteEmployee(empId))
-						System.out.println("\nEmployee deleted successfully!!");
-					else
-						System.out.println("\nThis employee does not exist!");
-
+					empService.deleteEmployee(empId);
+					System.out.println("\nEmployee deleted successfully!!");
+					
 					break;
 
 				case 5: // View All the employees
@@ -163,7 +161,7 @@ public class EmployeeManagementMain {
 			}
 
 		} while (true);
-
+				
 	}
 
 	

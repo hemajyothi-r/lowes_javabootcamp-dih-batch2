@@ -57,7 +57,7 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 		return status;
 	}
@@ -75,7 +75,7 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 		return status;
 	}
@@ -90,7 +90,7 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 		}
 		return status;
 	}
@@ -116,7 +116,8 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			}
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 //e.printStackTrace();
+			System.out.println("This employee does not exist!");
 		}
 
 		return emp;
@@ -142,7 +143,7 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			}
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 
 		return employees;

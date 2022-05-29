@@ -93,6 +93,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
 				LocalDate date = LocalDate.parse(tokens[6], dateFormat);
 				emp.setDoj(date);
+				//emp.setDoj(LocalDate.parse(tokens[6], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+								
 				this.createEmployee(emp);
 			}
 			System.out.println("Bulk Import Success");

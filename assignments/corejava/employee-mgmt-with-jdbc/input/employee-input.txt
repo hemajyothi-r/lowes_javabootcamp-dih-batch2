@@ -1,6 +1,6 @@
-1,Hema,38,Delivery Manager,Operations,India,2022-02-23
-2,Jyothi,42,QA,Infra,India,2009-03-09
-3,Sammu,28,Developer,Operations,USA,2011-10-24
-4,Ajeya,41,Test Engineer,Operations,UK,2010-06-07
-5,Poorvi,21,Associate,Admin,Australia,2011-09-28
-6,Nishi,27,Manager,Admin,India,2018-07-01
+1,Hema,38,Delivery Manager,Operations,India,02/23/2022
+2,Jyothi,42,QA,Infra,India,03/09/2009
+3,Sammu,28,Developer,Operations,USA,10/24/2011
+4,Ajeya,41,Test Engineer,Operations,UK,06/07/2010
+5,Poorvi,21,Associate,Admin,Australia,09/28/2011
+6,Nishi,27,Manager,Admin,India,07/01/2018
