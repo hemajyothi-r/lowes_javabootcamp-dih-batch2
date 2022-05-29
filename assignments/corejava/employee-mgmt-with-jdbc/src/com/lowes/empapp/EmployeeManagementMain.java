@@ -37,7 +37,7 @@ public class EmployeeManagementMain {
 	public static void main(String[] args) {
 
 		System.out.println("Welcome to Employee Management App");
-		
+
 		ExecutorService executor = Executors.newWorkStealingPool(2);
 
 		int empId;
@@ -103,7 +103,7 @@ public class EmployeeManagementMain {
 					empId = scan.nextInt();
 					empService.deleteEmployee(empId);
 					System.out.println("\nEmployee deleted successfully!!");
-					
+
 					break;
 
 				case 5: // View All the employees
@@ -125,26 +125,27 @@ public class EmployeeManagementMain {
 
 				case 7: // Import the employees from the input file
 					Future<Boolean> importFuture = executor.submit(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            System.out.println("Import Process on thread named: " + Thread.currentThread().getName());
-                            Thread.sleep(2000);
-                            empService.bulkImport();
-                            return true;
-                        }
-                    });
-                    break;
+						@Override
+						public Boolean call() throws Exception {
+							System.out.println("Import Process on thread named: " + Thread.currentThread().getName());
+							Thread.sleep(2000);
+							empService.bulkImport();
+							return true;
+						}
+					});
+					break;
 				case 8: // Export All the collection employees to text file
 					Future<Boolean> exportFuture = executor.submit(new Callable<Boolean>() {
-                        @Override
-                        public Boolean call() throws Exception {
-                            System.out.println("Export Process on the thread named: " + Thread.currentThread().getName());
-                            Thread.sleep(2000);
-                            empService.bulkExport();
-                            return true;
-                        }
-                    });
-                    break;
+						@Override
+						public Boolean call() throws Exception {
+							System.out
+									.println("Export Process on the thread named: " + Thread.currentThread().getName());
+							Thread.sleep(2000);
+							empService.bulkExport();
+							return true;
+						}
+					});
+					break;
 
 				case 9: // Exit from the app
 					System.out.println("\nThank you for using Employee Management application!!");
@@ -161,10 +162,9 @@ public class EmployeeManagementMain {
 			}
 
 		} while (true);
-				
+
 	}
 
-	
 	private static void printStatistics() {
 
 		System.out.println("No of employees older than thirty years: "
@@ -173,10 +173,12 @@ public class EmployeeManagementMain {
 		System.out.println("Employee count by Department:" + empService.getEmployeeCountByDepartment());
 		System.out.println("Employee count by Department ordered:" + empService.getEmployeeCountByDepartmentOdered());
 		System.out.println("Average Employee Age by Department:" + empService.getAvgEmployeeAgeByDept());
-		System.out.println("List Departments have more than 3 employees:" + empService.getDepartmentsHaveEmployeesMoreThan(3));
-		System.out.println("List Employees starts with 'S':" +  empService.getEmployeeNamesStartsWith("S"));
+		System.out.println(
+				"List Departments have more than 3 employees:" + empService.getDepartmentsHaveEmployeesMoreThan(3));
+		System.out.println("List Employees starts with 'S':" + empService.getEmployeeNamesStartsWith("S"));
+		System.out.println("Average Employee Service by Department: " + empService.getAvgEmployeeServiceByDept());
 	}
-	
+
 	private static void getEmployeeData(Employee emp, int insertUpdate) throws NumberFormatException {
 		System.out.println("Enter Employee Name");
 		emp.setName(scan.next());

@@ -198,10 +198,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 	
+		
 	@Override
-	public Map<String, Double> getAvgEmployeeServiceByDept() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Map<String, Double> getAvgEmployeeServiceByDept() {
+        return  this.displayEmployees()
+                .stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingInt(employees -> {
+                    Period period = Period.between(employees.getDoj(), LocalDate.now());
+                    return period.getYears();
+                })));
+    }
+	
 
 }
