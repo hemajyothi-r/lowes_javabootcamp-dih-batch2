@@ -138,10 +138,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public boolean validate(Employee emp, String msg, Predicate<Employee> condition,
 			Function<String, Boolean> operation) {
-		if (!condition.test(emp)) {
+		
+		boolean status = condition.test(emp);
+		
+		if (!status) {
 			return operation.apply(msg);
 		}
-		return true;
+		return status;
 	}
 
 	@Override
