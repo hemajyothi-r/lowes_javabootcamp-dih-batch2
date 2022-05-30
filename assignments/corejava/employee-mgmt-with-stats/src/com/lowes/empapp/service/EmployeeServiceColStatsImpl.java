@@ -167,11 +167,10 @@ public class EmployeeServiceColStatsImpl implements EmployeeService {
 
 	@Override
 	public Map<String, Long> getEmployeeCountByDepartmentOdered() {
-	
-		return this.displayEmployees().stream()
-				.map(Employee::getDepartment)
-			    .collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
-		
+
+		return this.displayEmployees().stream().map(Employee::getDepartment)
+				.collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
+
 	}
 
 	@Override
@@ -182,26 +181,31 @@ public class EmployeeServiceColStatsImpl implements EmployeeService {
 
 	}
 
+//	@Override
+//	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
+//
+//		return this.displayEmployees().stream().collect(Collectors
+//				.collectingAndThen(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()), map -> {
+//					map.values().removeIf(l -> l <= criteria);
+//					return map.keySet();
+//				}));
+//
+//	}
+
 	@Override
-	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
-		
+	public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
 		return this.displayEmployees().stream()
-				.collect(
-						Collectors.collectingAndThen(
-								Collectors.groupingBy(Employee::getDepartment, Collectors.counting()),
-								map->{map.values().removeIf(l -> l<=3); return map.keySet();
-				 }));
-						
+				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet().stream()
+				.filter(entry -> entry.getValue() > criteria).map(Map.Entry::getKey).collect(Collectors.toList());
 	}
 
 	@Override
 	public List<String> getEmployeeNamesStartsWith(String prefix) {
-				
-		List<String> names = this.displayEmployees().stream()
-								.filter(emp -> emp.getName().startsWith(prefix))
-								.map(emp -> emp.getName()).collect(Collectors.toList());
+
+		List<String> names = this.displayEmployees().stream().filter(emp -> emp.getName().startsWith(prefix))
+				.map(emp -> emp.getName()).collect(Collectors.toList());
 		return names;
-			
+
 	}
 
 }

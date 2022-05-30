@@ -93,8 +93,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
 				LocalDate date = LocalDate.parse(tokens[6], dateFormat);
 				emp.setDoj(date);
-				//emp.setDoj(LocalDate.parse(tokens[6], DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-								
+				// emp.setDoj(LocalDate.parse(tokens[6],
+				// DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
 				this.createEmployee(emp);
 			}
 			System.out.println("Bulk Import Success");
@@ -178,15 +179,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	}
 
+//	@Override
+//	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
+//
+//		return this.displayEmployees().stream().collect(Collectors
+//				.collectingAndThen(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()), map -> {
+//					map.values().removeIf(l -> l <= criteria);
+//					return map.keySet();
+//				}));
+//
+//	}
+
 	@Override
-	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
-
-		return this.displayEmployees().stream().collect(Collectors
-				.collectingAndThen(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()), map -> {
-					map.values().removeIf(l -> l <= 3);
-					return map.keySet();
-				}));
-
+	public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
+		return this.displayEmployees().stream()
+				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet().stream()
+				.filter(entry -> entry.getValue() > criteria).map(Map.Entry::getKey).collect(Collectors.toList());
 	}
 
 	@Override
@@ -197,17 +205,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return names;
 
 	}
-	
-		
+
 	@Override
-    public Map<String, Double> getAvgEmployeeServiceByDept() {
-        return  this.displayEmployees()
-                .stream()
-                .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingInt(employees -> {
-                    Period period = Period.between(employees.getDoj(), LocalDate.now());
-                    return period.getYears();
-                })));
-    }
-	
+	public Map<String, Double> getAvgEmployeeServiceByDept() {
+		return this.displayEmployees().stream()
+				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingInt(employees -> {
+					Period period = Period.between(employees.getDoj(), LocalDate.now());
+					return period.getYears();
+				})));
+	}
 
 }
