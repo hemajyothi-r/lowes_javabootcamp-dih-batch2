@@ -92,7 +92,7 @@ public class EmployeeServiceColImpExp implements EmployeeService {
             while ((line = in.readLine()) != null) {
                 String[] tokens = line.split(",");
                 Employee emp = new Employee();
-                emp.setEmpId(Integer.parseInt(tokens[0]));
+                //emp.setEmpId(Integer.parseInt(tokens[0]));
                 emp.setName(tokens[1]);
                 emp.setAge(Integer.parseInt(tokens[2]));
                 emp.setDesignation(tokens[3]);
@@ -100,7 +100,7 @@ public class EmployeeServiceColImpExp implements EmployeeService {
                 emp.setCountry(tokens[5]);
                 this.createEmployee(emp);
             }
-            System.out.println("Bulk Import Success");
+            System.out.println("File Imported Successfully");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

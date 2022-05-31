@@ -38,8 +38,8 @@ public interface EmployeeService {
 
 	public Map<String, Double> getAvgEmployeeAgeByDept();
 
-	public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria);
-	//public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria);
+	//public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria);
+	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria);
 
 	public List<String> getEmployeeNamesStartsWith(String prefix);
 	

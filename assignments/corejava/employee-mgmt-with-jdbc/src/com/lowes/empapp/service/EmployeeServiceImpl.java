@@ -36,6 +36,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	EmployeeDao employeeDao;
 
+	private List<Employee> employees = null;
+	
 	Comparator<Employee> EMPLOYEE_NAME_ASC_SORT = new Comparator<Employee>() {
 
 		public int compare(Employee e1, Employee e2) {
@@ -44,11 +46,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 	};
 
 	public EmployeeServiceImpl() {
-		employeeDao = new EmployeeDaoJdbcImpl();
+		try {
+			employeeDao = new EmployeeDaoJdbcImpl();
+		} catch (EmployeeDAOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("Database server connectivity issue!! Unable to establish DB Connection.");
+		}
 	}
 
 	@Override
 	public boolean createEmployee(Employee emp) {
+		
 		return employeeDao.createEmployee(emp);
 	}
 
@@ -84,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			while ((line = in.readLine()) != null) {
 				String[] tokens = line.split(",");
 				Employee emp = new Employee();
-				emp.setEmpId(Integer.parseInt(tokens[0]));
+				
 				emp.setName(tokens[1]);
 				emp.setAge(Integer.parseInt(tokens[2]));
 				emp.setDesignation(tokens[3]);
@@ -93,12 +102,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 				DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
 				LocalDate date = LocalDate.parse(tokens[6], dateFormat);
 				emp.setDoj(date);
-				// emp.setDoj(LocalDate.parse(tokens[6],
-				// DateTimeFormatter.ofPattern("dd-MM-yyyy")));
-
+				
 				this.createEmployee(emp);
 			}
-			System.out.println("Bulk Import Success");
+			System.out.println("File Imported Successfully");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -119,8 +126,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 			out = new PrintWriter(".\\output\\employee-output.txt");
 			for (Employee emp : employees) {
+				
 				out.write(emp.getEmpId() + "," + emp.getName() + "," + emp.getAge() + "," + emp.getDesignation() + ","
-						+ emp.getDepartment() + "," + emp.getCountry() + "," + emp.getDoj() + "\n");
+						+ emp.getDepartment() + "," + emp.getCountry() + "," + emp.getDoj()  + "\n");
 			}
 			out.flush();
 			System.out.println("\n" + "File copied successfully.");
@@ -134,6 +142,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 	}
+	
+	 public List<Employee> empCollection() {
+	        if(employees == null) {
+	            employees =  displayEmployees();
+	        }
+	        return employees;
+	    }
 
 	@Override
 	public boolean validate(Employee emp, String msg, Predicate<Employee> condition,
@@ -155,21 +170,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public List<Integer> getEmployeeIdsAgeGreaterThan(int age) {
-		List<Integer> empIds = this.displayEmployees().stream().filter(emp -> emp.getAge() > age)
+		this.empCollection();
+		List<Integer> empIds = employees.stream().filter(emp -> emp.getAge() > age)
 				.map(emp -> emp.getEmpId()).collect(Collectors.toList());
 		return empIds;
 	}
 
 	@Override
 	public Map<String, Long> getEmployeeCountByDepartment() {
-		return this.displayEmployees().stream().map(Employee::getDepartment)
+		return employees.stream().map(Employee::getDepartment)
 				.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 	}
 
 	@Override
 	public Map<String, Long> getEmployeeCountByDepartmentOdered() {
 
-		return this.displayEmployees().stream().map(Employee::getDepartment)
+		return employees.stream().map(Employee::getDepartment)
 				.collect(Collectors.groupingBy(Function.identity(), TreeMap::new, Collectors.counting()));
 
 	}
@@ -177,33 +193,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Map<String, Double> getAvgEmployeeAgeByDept() {
 
-		return this.displayEmployees().stream()
+		return employees.stream()
 				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingInt(Employee::getAge)));
 
 	}
 
-//	@Override
-//	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
-//
-//		return this.displayEmployees().stream().collect(Collectors
-//				.collectingAndThen(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()), map -> {
-//					map.values().removeIf(l -> l <= criteria);
-//					return map.keySet();
-//				}));
-//
-//	}
-
 	@Override
-	public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
-		return this.displayEmployees().stream()
-				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet().stream()
-				.filter(entry -> entry.getValue() > criteria).map(Map.Entry::getKey).collect(Collectors.toList());
+	public Set<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
+
+		return employees.stream().collect(Collectors
+				.collectingAndThen(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()), map -> {
+					map.values().removeIf(l -> l <= criteria);
+					return map.keySet();
+				}));
+
 	}
+
+//	@Override
+//	public List<String> getDepartmentsHaveEmployeesMoreThan(int criteria) {
+//		return this.displayEmployees().stream()
+//				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting())).entrySet().stream()
+//				.filter(entry -> entry.getValue() > criteria).map(Map.Entry::getKey).collect(Collectors.toList());
+//	}
 
 	@Override
 	public List<String> getEmployeeNamesStartsWith(String prefix) {
 
-		List<String> names = this.displayEmployees().stream().filter(emp -> emp.getName().startsWith(prefix))
+		List<String> names = employees.stream().filter(emp -> emp.getName().startsWith(prefix))
 				.map(emp -> emp.getName()).collect(Collectors.toList());
 		return names;
 
@@ -211,7 +227,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public Map<String, Double> getAvgEmployeeServiceByDept() {
-		return this.displayEmployees().stream()
+		return employees.stream()
 				.collect(Collectors.groupingBy(Employee::getDepartment, Collectors.averagingInt(employees -> {
 					Period period = Period.between(employees.getDoj(), LocalDate.now());
 					return period.getYears();

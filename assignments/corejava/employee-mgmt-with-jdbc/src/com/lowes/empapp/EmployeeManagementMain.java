@@ -47,16 +47,17 @@ public class EmployeeManagementMain {
 		do {
 
 			showEmployeeMainMenu();
+
+			System.out.print("Enter the option: ");
 			int option = 0;
-			System.out.print("\nEnter your Option : ");
+			// Get option from user
 			try {
-				option = scan.nextInt();
-
+				option = Integer.parseInt(scan.next());
 			} catch (NumberFormatException e) {
-
-				System.out.print("\nInvalid number, please enter correct option. ");
+				System.out.println("Invalid option. Please enter valid option.");
 				continue;
 			}
+
 			try {
 				switch (option) {
 				case 1: // Create/Add Employee
@@ -91,8 +92,8 @@ public class EmployeeManagementMain {
 					Employee empUpdate = empService.get(empId);
 					if (empUpdate != null) {
 						getEmployeeData(empUpdate, 0);
-						if (empService.updateEmployee(empUpdate))
-							System.out.println("\nEmployee details updated successfully!!");
+						empService.updateEmployee(empUpdate);
+						System.out.println("\nEmployee details updated successfully!!");
 					} else
 						System.out.println("\nThis employee does not exist!");
 
@@ -101,9 +102,13 @@ public class EmployeeManagementMain {
 				case 4:// Delete Employee by ID
 					System.out.println("Enter the employee Id to delete");
 					empId = scan.nextInt();
+					Employee empDel = empService.get(empId);
+					if (empDel != null) {	
 					empService.deleteEmployee(empId);
 					System.out.println("\nEmployee deleted successfully!!");
-
+					}
+					else System.out.println("\nThis employee does not exist!");
+						
 					break;
 
 				case 5: // View All the employees
@@ -174,7 +179,7 @@ public class EmployeeManagementMain {
 		System.out.println("Employee count by Department ordered:" + empService.getEmployeeCountByDepartmentOdered());
 		System.out.println("Average Employee Age by Department:" + empService.getAvgEmployeeAgeByDept());
 		System.out.println(
-				"List Departments have more than 3 employees:" + empService.getDepartmentsHaveEmployeesMoreThan(3));
+				"List Departments have more than 3 employees:" + empService.getDepartmentsHaveEmployeesMoreThan(1));
 		System.out.println("List Employees starts with 'S':" + empService.getEmployeeNamesStartsWith("S"));
 		System.out.println("Average Employee Service by Department: " + empService.getAvgEmployeeServiceByDept());
 	}

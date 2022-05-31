@@ -3,6 +3,7 @@ package com.lowes.empapp.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lowes.empapp.exception.EmployeeDAOException;
 import com.lowes.empapp.exception.EmployeeException;
 import com.lowes.empapp.model.Employee;
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -29,7 +30,7 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
-	public EmployeeDaoJdbcImpl() {
+	public EmployeeDaoJdbcImpl() throws EmployeeDAOException {
 		dataSource = new MysqlDataSource();
 		dataSource.setServerName("localhost");
 		dataSource.setDatabaseName("jdbctraining");
@@ -41,11 +42,13 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			System.out.println("Connection created successfully " + conn);
 		} catch (SQLException e) {
 			// e.printStackTrace();
+			throw new EmployeeDAOException(e.getMessage());
 		}
+		
 	}
 
 	@Override
-	public boolean createEmployee(Employee emp) {
+	public boolean createEmployee(Employee emp){
 		boolean status = false;
 		try {
 			stmt = conn.createStatement();
@@ -57,7 +60,8 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println("Error occurred while inserting Employee data");
 		}
 		return status;
 	}
@@ -75,7 +79,8 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println("Error occurred while Updating Employee data");
 		}
 		return status;
 	}
@@ -90,7 +95,8 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			status = stmt.execute(query);
 
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			System.out.println("Error occurred while deleting Employee data");
 		}
 		return status;
 	}
@@ -143,7 +149,9 @@ public class EmployeeDaoJdbcImpl implements EmployeeDao {
 			}
 
 		} catch (SQLException e) {
-			 e.printStackTrace();
+			// e.printStackTrace();
+			
+			System.out.println("Error occurred while getting all the Employee data");
 		}
 
 		return employees;

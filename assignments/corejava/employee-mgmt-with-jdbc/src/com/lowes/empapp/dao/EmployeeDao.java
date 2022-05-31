@@ -2,6 +2,7 @@ package com.lowes.empapp.dao;
 
 import java.util.List;
 
+import com.lowes.empapp.exception.EmployeeDAOException;
 import com.lowes.empapp.exception.EmployeeException;
 import com.lowes.empapp.model.Employee;
 

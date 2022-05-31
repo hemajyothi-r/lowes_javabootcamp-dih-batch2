@@ -8,7 +8,7 @@ public class EmployeeException extends Exception{
 	
 	public EmployeeException(String string) {
 		// TODO Auto-generated constructor stub
-		System.out.println("This employee does not exist!");
+		System.out.println(string);
 	}
-		
+	
 }
