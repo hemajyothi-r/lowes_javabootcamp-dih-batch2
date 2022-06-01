@@ -1,15 +1,14 @@
-11,Hema,38,Developer,Operations,India,2009-03-09
-15,Sammu,25,Lead,IT,USA,2022-02-24
-18,Nishi,23,Tester,Operations,India,2018-07-01
-19,Hema,38,Delivery Manager,Operations,India,2022-02-23
-20,Jyothi,42,QA,Infra,India,2009-03-09
-21,Sammu,28,Developer,Operations,USA,2011-10-24
-22,NewName,45,Tester,Test,India,2010-06-07
-23,Poorvi,21,Associate,Admin,Australia,2011-09-28
-24,Nishi,27,Manager,Admin,India,2018-07-01
-25,Hema,38,Delivery Manager,Operations,India,2022-02-23
-26,Jyothi,42,QA,Infra,India,2009-03-09
-27,Sammu,28,Developer,Operations,USA,2011-10-24
-28,Ajeya,41,Test Engineer,Operations,UK,2010-06-07
-29,Poorvi,21,Associate,Admin,Australia,2011-09-28
-30,Nishi,27,Manager,Admin,India,2018-07-01
+11,Hema,38,Developer,Operations,India,3/9/2009
+15,Sammu,25,Lead,IT,USA,2/24/2022
+18,NishiNew,24,NewTester,NewDept,NewCountry,7/1/2018
+19,Hema,38,Delivery Manager,Operations,India,2/23/2022
+20,Jyothi,42,QA,Infra,India,3/9/2009
+21,Sammu,28,Developer,Operations,USA,10/24/2011
+22,NewName,45,Tester,Test,India,6/7/2010
+23,Poorvi,21,Associate,Admin,Australia,9/28/2011
+24,Nishi,27,Manager,Admin,India,7/1/2018
+25,Hema,38,Delivery Manager,Operations,India,2/23/2022
+26,Jyothi,42,QA,Infra,India,3/9/2009
+27,Sammu,28,Developer,Operations,USA,10/24/2011
+28,Ajeya,41,Test Engineer,Operations,UK,6/7/2010
+29,Poorvi,21,Associate,Admin,Australia,9/28/2011

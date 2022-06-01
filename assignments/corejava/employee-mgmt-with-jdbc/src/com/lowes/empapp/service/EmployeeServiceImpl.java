@@ -119,6 +119,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		System.out.format("%n%s - Export started %n", Thread.currentThread().getName());
 		PrintWriter out = null;
 
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("M/d/yyyy");
+		
+		
 		List<Employee> employees = new ArrayList<>();
 		employees = displayEmployees();
 
@@ -126,9 +129,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 			out = new PrintWriter(".\\output\\employee-output.txt");
 			for (Employee emp : employees) {
-				
+								
 				out.write(emp.getEmpId() + "," + emp.getName() + "," + emp.getAge() + "," + emp.getDesignation() + ","
-						+ emp.getDepartment() + "," + emp.getCountry() + "," + emp.getDoj()  + "\n");
+						+ emp.getDepartment() + "," + emp.getCountry() + "," + emp.getDoj().format(dateFormat)  + "\n");
 			}
 			out.flush();
 			System.out.println("\n" + "File copied successfully.");
