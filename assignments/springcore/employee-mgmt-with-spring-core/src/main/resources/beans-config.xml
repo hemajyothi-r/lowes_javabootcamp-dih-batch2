@@ -1,0 +1,23 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"  
+	            "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<bean id="employeeService"
+		class="com.lowes.empapp.service.EmployeeServiceImpl">
+		<property name="employeeDao" ref="employeeDao" />
+	</bean>
+	<bean id="employeeDao"
+		class="com.lowes.empapp.dao.EmployeeDaoJdbcImpl">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/jdbctraining" />
+		<property name="username" value="training" />
+		<property name="password" value="training" />
+	</bean>
+
+</beans>
