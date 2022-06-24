@@ -1,0 +1,105 @@
+#Dockerize Registry Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-service-registry
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/bankingapp-registry-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/bankingapp-registry-service:latest .
+
+#Dockerize Accounts Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-account-service
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/account-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/account-service:latest .
+
+#Dockerize Fund Transfer Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-fundtransfer-service
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/fundtransfer-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/fundtransfer-service:latest .
+
+#Dockerize Order Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-transaction-service
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/transaction-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/transaction-service:latest .
+
+#Dockerize Gateway Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-gateway
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/bankingapp-gateway-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/bankingapp-gateway-service:latest .
+
+
+#Dockerize Admin Service
+${PROJECT_HOME}/assignments/bankingapp/banking-app-admin
+#Linux/Mac
+chmod +x mvnw
+./mvnw clean install -DskipTests
+docker build -t banking/bankingapp-admin-service:latest .
+#Windows
+mvnw clean install -DskipTests
+docker build -t banking/bankingapp-admin-service:latest .
+
+
+
+
+
+#Run Registry, Account and Gateway Services as docker containers
+docker run -d --name=bankingapp-registry-service -p 8761:8761 banking/bankingapp-registry-service
+docker run -d --name=account-service -p 8101:8101 -e "REGISTRY_SERVER_HOST=172.17.0.2" banking/account-service
+docker run -d --name=bankingapp-gateway-service -p 8111:8111 -e "REGISTRY_SERVER_HOST=172.17.0.2" banking/bankingapp-gateway-service
+docker run -d --name=bankingapp-admin-service -p 7777:7777 -e "REGISTRY_SERVER_HOST=172.17.0.2" banking/bankingapp-admin-service
+
+#Start Kafka
+docker-compose -f docker-compose-kafka.yml up -d
+
+#Run Fund Transfer and Transaction Services as docker containers
+docker run -d --name=fundtransfer-service -p 8102:8102 -e "REGISTRY_SERVER_HOST=172.17.0.2" -e "KAFKA_BOOTSTRAP_SERVERS=192.168.1.118:9092" banking/fundtransfer-service
+docker run -d --name=transaction-service -p 8103:8103 -e "REGISTRY_SERVER_HOST=172.17.0.2" -e "KAFKA_BOOTSTRAP_SERVERS=192.168.1.118:9092" banking/transaction-service
+
+#Create Fundtransfers
+POST http://localhost:8111/bankingapp/api/fundtransfer/fundtransfer
+
+{
+    "name": "Anil",
+    "age": 40,
+    "gender": "Male",
+    "prime": false,
+    "creditLimit": 10000,
+    "address": "Koramangala",
+    "location": "Bangalore"
+}
+
+#Create Transactions
+POST http://localhost:8111/bankingapp/api/transaction/transaction
+
+{
+    "customerId": "1",
+	"productId": 2,
+    "quantity": 1,
+    "price": 2000
+}
+
+to edit file on docker
+
+vi <filename> enter
+insert
